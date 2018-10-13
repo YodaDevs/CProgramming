@@ -1,2 +1,2 @@
-# -C-Programming
+# CProgramming
  Development in C language
