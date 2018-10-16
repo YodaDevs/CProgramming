@@ -17,10 +17,18 @@ int is_empty(binary_tree *bt);
 void print_in_order(binary_tree *bt);
 void print_pre_order(binary_tree *bt);
 void print_post_order(binary_tree *bt);
+void print_tree_brackets(binary_tree* root);
 
 int main()
 {
-    
+    binary_tree* bt = create_binary_tree(1,NULL,NULL);
+    bt = add(bt,2);
+    bt = add(bt,3);
+    bt = add(bt,4);
+    bt = add(bt,5);
+    bt = add(bt,6);
+
+    print_tree_brackets(bt);
     return 0;
 }
 
@@ -180,3 +188,100 @@ binary_tree* delete(binary_tree* node, binary_tree* pnode, int target){
         }
     }
 }
+
+// Function to construct brackets with binary tree 
+void print_tree_brackets(binary_tree* root) 
+{ 
+    // bases case 
+    if (root == NULL) 
+        return; 
+  
+    // push the root data
+    printf("%d", root->item);
+  
+    // if leaf node, then return 
+    if (is_empty(root->left) && is_empty(root->right)) 
+        return; 
+  
+    // for left subtree 
+    printf("("); 
+    print_tree_brackets(root->left);
+    printf(")"); 
+  
+    // only if right child is present to  
+    // avoid extra parenthesis 
+    if (root->right) { 
+        printf("("); 
+        print_tree_brackets(root->right); 
+        printf(")"); 
+    } 
+} 
+
+/* TEST OF ELIMINATE BRACKETS
+
+// functin to return the index of close parenthesis 
+int findIndex(string str, int si, int ei) 
+{ 
+    if (si > ei) 
+        return -1; 
+  
+    // Inbuilt stack 
+    stack<char> s; 
+  
+    for (int i = si; i <= ei; i++) { 
+  
+        // if open parenthesis, push it 
+        if (str[i] == '(') 
+            s.push(str[i]); 
+  
+        // if close parenthesis 
+        else if (str[i] == ')') { 
+            if (s.top() == '(') { 
+                s.pop(); 
+  
+                // if stack is empty, this is  
+                // the required index 
+                if (s.empty()) 
+                    return i; 
+            } 
+        } 
+    } 
+    // if not found return -1 
+    return -1; 
+} 
+  
+// function to construct tree from string 
+Node* treeFromString(string str, int si, int ei) 
+{ 
+    // Base case 
+    if (si > ei) 
+        return NULL; 
+  
+    // new root 
+    Node* root = newNode(str[si] - '0'); 
+    int index = -1; 
+  
+    // if next char is '(' find the index of 
+    // its complement ')' 
+    if (si + 1 <= ei && str[si + 1] == '(') 
+        index = findIndex(str, si + 1, ei); 
+  
+    // if index found 
+    if (index != -1) { 
+  
+        // call for left subtree 
+        root->left = treeFromString(str, si + 2, index - 1); 
+  
+        // call for right subtree 
+        root->right = treeFromString(str, index + 2, ei - 1); 
+    } 
+    return root; 
+} 
+  
+// Driver Code 
+int main() 
+{ 
+    string str = "4(2(3)(1))(6(5))"; 
+    Node* root = treeFromString(str, 0, str.length() - 1); 
+    preOrder(root); 
+} */
