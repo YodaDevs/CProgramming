@@ -20,17 +20,40 @@ binary_tree* rotate_right(binary_tree *bt);
 int max(int a, int b);
 int is_balanced(binary_tree *bt);
 void print_preorder_tree(binary_tree * bt);
+void nodesprintHier(binary_tree* p ,int flag);
 
 int main()
 {
     int i;
     binary_tree *tree = create_empty_binary_tree();
-    for(i = 1; i < 20; i++){
-       tree = add(tree,i);
-    }
+    tree = add(tree,15);
+    
     print_preorder_tree(tree);
     printf("\n");
+    printf("(");
+    nodesprintHier(tree,0);
+    printf(")\n");
     return 0;
+}
+
+void nodesprintHier(binary_tree* p ,int flag)
+{ 
+    if (p == 0) {
+        printf("");
+        return;
+    }
+ 
+         printf("%d", p->item);
+     
+    printf(" (");
+    nodesprintHier(p->left,0);
+    printf(") ");
+ 
+    printf(" (");
+    nodesprintHier(p->right,1);
+    printf(") ");
+ 
+    return;
 }
 
 

@@ -18,17 +18,20 @@ void print_in_order(binary_tree *bt);
 void print_pre_order(binary_tree *bt);
 void print_post_order(binary_tree *bt);
 void print_tree_brackets(binary_tree* root);
-
+void nodesprintHier(binary_tree* p ,int flag);
 int main()
 {
-    binary_tree* bt = create_binary_tree(1,NULL,NULL);
+    binary_tree* bt = create_empty_binary_tree();
+    bt = add(bt,11);
     bt = add(bt,2);
-    bt = add(bt,3);
     bt = add(bt,4);
-    bt = add(bt,5);
-    bt = add(bt,6);
+    bt = add(bt,13);
+    bt = add(bt,15);
 
     print_tree_brackets(bt);
+    printf("\n");
+    nodesprintHier(bt,0);
+    printf("\n");
     return 0;
 }
 
@@ -216,10 +219,44 @@ void print_tree_brackets(binary_tree* root)
         printf(")"); 
     } 
 } 
+/* flag is zero when we came form a left child and 1 when from a 
+right one.When called,function gets as 2nd parameter 0 
+void nodesprintHier(binary_tree* p ,int flag){ 
 
-/* TEST OF ELIMINATE BRACKETS
+    if( p != NULL ) {
+       
+        if(!flag)  printf("(%d ", p->item);
 
-// functin to return the index of close parenthesis 
+        else   printf(" %d)", p->item);
+
+        nodesprintHier(p->left,0);
+        nodesprintHier(p->right,1);
+  }
+}*/
+
+void nodesprintHier(binary_tree* p ,int flag)
+{ 
+    if (p == 0) {
+        printf("[]");
+        return;
+    }
+ 
+         printf("%d", p->item);
+     
+    printf("(");
+    nodesprintHier(p->left,0);
+    printf(")");
+ 
+    printf("(");
+    nodesprintHier(p->right,1);
+    printf(")");
+ 
+    return;
+}
+/*
+TEST OF ELIMINATE BRACKETS
+
+//functin to return the index of close parenthesis 
 int findIndex(string str, int si, int ei) 
 { 
     if (si > ei) 
