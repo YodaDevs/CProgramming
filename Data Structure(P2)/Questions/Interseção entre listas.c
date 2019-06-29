@@ -3,8 +3,6 @@
 #include <math.h>
 #include <stdlib.h>
 
-#define MAX 40
-
 void merge(int vetor[], int comeco, int meio, int fim) {
     int com1 = comeco, com2 = meio+1, comAux = 0, tam = fim-comeco+1;
     int *vetAux;
@@ -51,7 +49,7 @@ void mergeSort(int vetor[], int comeco, int fim){
 }
 
 int main() {
-    int A[20], B[20], aux[MAX], i=0, j, EscrevendoArray = 20, print = 0, printback = 1;
+    int A[20], B[20], i=0, j, EscrevendoArray = 20, print = 0, printback = 1;
     while(EscrevendoArray--){
         scanf("%d", &A[i]);
         i++;
@@ -64,20 +62,7 @@ int main() {
     }
     mergeSort(A,0,19);
     mergeSort(B,0,19);
-    /*for(i=0; i < 20; i++){
-        aux[i] = A[i];
-    }
-    j = 0;
-    for(i=20; i < 40; i++){
-        aux[i] = B[j];
-        j++;
-    }*/
-    /*for (i = 0; i < 20; i++){
-        printf("%d\n", A[i]);
-    }*/
-    /*for (i = 0; i < 20; i++){
-        printf("%d\n", B[i]);
-    }*/
+    
     j = 0;
     for (i = 0; i < 20; i++){
         while(A[i]==B[j]){
