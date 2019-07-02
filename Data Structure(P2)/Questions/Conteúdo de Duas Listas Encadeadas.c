@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 
+
 struct node {
   int item;
   struct node *next;
@@ -30,7 +31,7 @@ void print_linked_list (struct node *head){
   }
 }
 
-int search(struct node *head, int *item){
+int search(struct node *head, int item){
     while(head!=NULL){
         if(head->item == item) return 1;
         head = head->next;
@@ -38,23 +39,29 @@ int search(struct node *head, int *item){
     return 0;
 }
 
-int main() {
-  struct node* list = create_linked_list();
-  int a,aux=1, num;
-  scanf("%d",&num);
-  while(num--){
-    scanf("%d", &a);
-    list = add(list,a);
-  }
-  scanf("%d", &num);
-  while(num--){
-    scanf("%d", &a);
-    aux = search(list, a);
-    if(aux == 0) {
-        printf("0");
-        return 0;
+int main(){
+    struct node* list1 = create_linked_list();
+    struct node* list2 = create_linked_list();
+    int a, num;
+    scanf("%d",&num);
+    while(num--){
+        scanf("%d", &a);
+        list1 = add(list1,a);
     }
-  }
-  printf("1");
-  return 0;
+    scanf("%d", &num);
+
+    while (num--){
+        scanf("%d", &a);
+        list2 = add(list2,a);
+    }
+
+    while(!is_empty(list2)){
+        if(search(list1, list2->item) == 0) {
+            printf("0");
+            return 0;
+        }
+        list2 = list2->next;
+    }
+    printf("1");
+    return 0;
 }
