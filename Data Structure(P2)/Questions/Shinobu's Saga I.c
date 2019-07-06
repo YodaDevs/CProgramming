@@ -84,39 +84,16 @@ int IS_EMPTY(STACK* stack){
 //Recebe a pilha e a operacao a ser feita
 //faz a operacao da calculadora
 void result(STACK* stack, char operation){
-    int conta=0, one, two;
 
-    if (operation == '+')
-    {
-        one = POP(stack);
-        two = POP(stack);
-        conta = (two + one);
-        PUSH(stack,conta);
-    }
-    else if (operation == '-')
-    {
-        one = POP(stack);
-        two = POP(stack);
-        conta = (two - one);
-        PUSH(stack,conta);
-    }
-    else if (operation == '*')
-    {
-        one = POP(stack);
-        two = POP(stack);
-        conta = (two * one);
-        PUSH(stack,conta);
-    }
-    else if (operation == '/')
-    {
-        one = POP(stack);
-        two = POP(stack);
-        conta = (two / one);
-        PUSH(stack,conta);
-    }
-    else{
-        return ;
-    }
+    if (operation == '+') PUSH(stack,(POP(stack) + POP(stack)));
+    
+    else if (operation == '-') PUSH(stack,(POP(stack) - POP(stack)));
+    
+    else if (operation == '*')  PUSH(stack,(POP(stack) * POP(stack)));
+    
+    else if (operation == '/')  PUSH(stack,(POP(stack) / POP(stack)));
+    
+    else return ;
 }
 
 //Recebe uma pilha vazia e quantas strings serao lidas
@@ -128,10 +105,7 @@ void Calculadora(STACK* calculadora, int size){
             scanf("%s", num);
 
             tam = strlen(num);
-            /*if (num[0] == '\n')
-            {
-                scanf("%s", num);
-            }*/
+    
             for (i = 0; i < tam; ++i)
             {   if (num[i] >= 48 && num[i] <=57) {
                         aux = aux + (num[i] - 48);

@@ -1,138 +1,85 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-struct Node{
- int num;
- int tamanho;
- struct Node *prox;
-};
-typedef struct Node node;
+// STACK STRUCT WITH LINKED LIST
+typedef struct node {
+    int data;
+    struct node *next;
+}node;
+// END OF STACK STRUCT
 
-int menu(void);
-void inicia(node *PILHA);
-void push(node *PILHA);
-node *pop(node *PILHA);
+// TOP OF STACK
+typedef struct Stack{
+  node *top; 
+}stack;
 
-int main(void)
-{
- node *back = (node *) malloc(sizeof(node));
- node *forward = (node *) malloc(sizeof(node));
- node *enter = (node *) malloc(sizeof(node));
- char str[8];
- //int i=9;
- inicia(back);
- inicia(forward);
- inicia(enter);
-
-
- while(scanf("%s", str) != EOF)
- {
-  //fgets(str,8,stdin);
-  //getchar();
-  //printf("[%c]\n", str[0]);
-  /*printf("%d\n", strcmp(str,"ENTER"));
-  printf("%d\n", strcmp(str,"BACK"));
-  printf("%d\n", strcmp(str,"FORWARD"));*/
-  if(str[0]=='E')
-  {
-    push(enter);
-    while(forward->tamanho > 0)
-    {
-        pop(forward);
-    }
-    //printf("%d\n", enter->tamanho);
-  }
-  else if (str[0]=='B') {
-    if(enter->tamanho > 1){
-        pop(enter);
-        push(forward);
-    }
-    if(back->tamanho > 0){
-        push(forward);
-    }
-  }
-  else if(str[0]=='F'){
-    if(enter->tamanho > 0){
-        push(enter);
-        pop(forward);
-    }
-    if(back->tamanho > 0){
-        push(enter);
-        pop(forward);
-    }
-  }
-  //getchar();
- }
- pop(enter);
- printf("BACK: %d\n", enter->tamanho);
- printf("FORWARD: %d\n", forward->tamanho);
- free(back);
- free(forward);
- free(enter);
- return 0;
+stack* Create_Stack() {
+  stack *new_stack = (stack*) malloc(sizeof(stack));
+  new_stack->top = NULL;
+  return new_stack;
 }
 
-void inicia(node *PILHA)
-{
- PILHA->prox = NULL;
- PILHA->tamanho=0;
+void Push(stack *stack, int value) {
+    node *new_top = (node*) malloc(sizeof(node));
+    new_top->data = value;
+    new_top->next = stack->top;
+    stack->top = new_top;
 }
 
-int vazia(node *PILHA)
-{
- if(PILHA->prox == NULL)
-  return 1;
- else
+int Pop(stack* stack) {
+    node *tmp;
+    int n;
+    tmp = stack->top;
+    n = tmp->data;
+    stack->top = stack->top->next;
+    free(tmp);
+    
+    return n;
+}
+
+int Top(stack* stack) {
+    return stack->top->data;
+}
+
+int is_empty(stack* stack) {
+    return (stack->top==NULL);
+}
+
+int Stack_Size(node* top){
+  if(top != NULL){
+    return 1 + Stack_Size(top->next);
+  }
+  else {
+    return 0;
+  }
+  
+}
+
+int main() {
+  
+  stack *back = Create_Stack();
+  stack *forward = Create_Stack();
+  
+  char str[8];
+  int flag = 0;
+  while(scanf("%s", str) != EOF){
+    
+    if(str[0]=='E'){
+      flag++;
+      if(flag > 1) Push(back,1);
+      forward = Create_Stack();
+    }
+    if(str[0]== 'B' && (!is_empty(back))){
+      Push(forward,Pop(back));
+      if(flag > 1) flag--;
+    }
+    if(str[0] == 'F' && (!is_empty(forward))){
+      Push(back,Pop(forward));
+    }
+  }
+  printf("BACK: %d\n", Stack_Size(back->top));
+  printf("FORWARD: %d\n", Stack_Size(forward->top));
+  free(back);
+  free(forward);
   return 0;
-}
-
-node *aloca()
-{
- node *novo=(node *) malloc(sizeof(node));
- if(!novo){
-  printf("Sem memoria disponivel!\n");
-  exit(1);
- }else{
-  novo->num = 1;
-  return novo;
- }
-}
-
-void push(node *PILHA)
-{
- node *novo=aloca();
- novo->prox = NULL;
-
- if(vazia(PILHA))
-  PILHA->prox=novo;
- else{
-  node *tmp = PILHA->prox;
-
-  while(tmp->prox != NULL)
-   tmp = tmp->prox;
-
-  tmp->prox = novo;
- }
- PILHA->tamanho++;
-}
-
-
-node *pop(node *PILHA)
-{
- if(PILHA->prox == NULL){
-  return NULL;
- }else{
-  node *ultimo = PILHA->prox,
-              *penultimo = PILHA;
-
-  while(ultimo->prox != NULL){
-   penultimo = ultimo;
-   ultimo = ultimo->prox;
-  }
-
-  penultimo->prox = NULL;
-  PILHA->tamanho--;
-  return ultimo;
- }
 }
