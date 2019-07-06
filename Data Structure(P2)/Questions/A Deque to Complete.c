@@ -76,14 +76,25 @@ int main() {
        	printf("The deque is empty\n");
   	
     scanf("%d", &num);
-    for(i = 0; i < num; ++i)
+    for(i = 0; i < num; ++i){
        enqueue_front(deque, i);
-  	print(deque);
+    }
+    printf("1front: %d rear: %d\n", deque->front->value, deque->rear->value);
+  	print(deque);    
     dequeue_front(deque);    
+    printf("2front: %d rear: %d\n", deque->front->value, deque->rear->value);
     print(deque);
     dequeue_rear (deque);
     print(deque);
+    printf("3front: %d rear: %d\n", deque->front->value, deque->rear->value);
     
+  	erase(deque);
+  	for(i = 0; i < 3; ++i)
+  		enqueue_rear(deque, i);
+  		
+  	print(deque);
+    destruct(deque);
+
 	return 0;
 }
 
@@ -145,12 +156,14 @@ void     enqueue_rear (deque_t *deque, int value){
         new_node->prev = deque->rear;
         deque->rear = new_node;
         deque->size++;
+        
     }
     else{
         node_t* new_node = node_new(value);
         deque->front = new_node;
         deque->rear = new_node;
         deque->size++;
+        
     }
 }
 //Cria um nó que guarda um valor e o adiciona ao inicio do deque
@@ -161,18 +174,19 @@ void     enqueue_front(deque_t *deque, int value){
         new_node->next = deque->front;
         deque->front = new_node;
         deque->size++;
+        
     }
     else{
         node_t* new_node = node_new(value);
         deque->front = new_node;
         deque->rear = new_node;
         deque->size++;
+        
     }
 }
 //Retira o valor do final caso não esteja vazia
 void     dequeue_rear (deque_t *deque){
     if(deque->rear != NULL){
-        deque->rear->prev->next = NULL;
         deque->rear = deque->rear->prev;
         deque->size--;
     }
@@ -180,10 +194,10 @@ void     dequeue_rear (deque_t *deque){
 //Retira o valor da frente caso não esteja vazia
 void     dequeue_front(deque_t *deque){
     if(deque->front != NULL){
-        deque->front->next->prev = NULL;
         deque->front = deque->front->next;
         deque->size--;
     }
+    
 }
 //Limpa o conteudo do deque(deixa ele vazio)
 void     erase        (deque_t *deque){
@@ -196,11 +210,11 @@ void     erase        (deque_t *deque){
 //terminando com um \n, lembrando de respeitar os conceitos de fila.
 void     print        (deque_t *deque){
     if(!empty(deque)){
-            
-        while(deque->front != NULL){
-            printf("%d ",deque->front->value);
-            deque->front = deque->front->next;
+        node_t* backup = deque->front;    
+        while(backup != deque->rear){
+            printf("%d ",backup->value);
+            backup = backup->next;
         }
-        printf("\n");
+        printf("%d\n",backup->value);
     }
 }
