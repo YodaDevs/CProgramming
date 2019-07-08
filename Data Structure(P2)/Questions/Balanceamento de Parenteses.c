@@ -2,144 +2,94 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Node{
- int num;
- int tamanho;
- struct Node *prox;
-};
-typedef struct Node node;
+// STACK STRUCT WITH LINKED LIST
+typedef struct node {
+    int data;
+    struct node *next;
+}node;
+// END OF STACK STRUCT
 
-int menu(void);
-void inicia(node *PILHA);
-void push(node *PILHA);
-node *pop(node *PILHA);
-void inicia(node *PILHA);
-int vazia(node *PILHA);
+// TOP OF STACK
+typedef struct Stack{
+  node *top; 
+}stack;
 
-int main(void)
-{
-    char str[256];
-    int counter,j,i=0, balanced1=0,balanced2=0, abort=0;
-    scanf("%d\n", &counter);
-    while(counter--){
-        fgets(str,256,stdin);
-        /*for(i=0; i < strlen(str)-1; i++){
-            printf("%c", str[i]);
-        }
-        printf("\n");*/
-        node *parent = (node *) malloc(sizeof(node));
-        inicia(parent);
+stack* Create_Stack() {
+  stack *new_stack = (stack*) malloc(sizeof(stack));
+  new_stack->top = NULL;
+  return new_stack;
+}
 
-        for (j = 0; j < strlen(str) ; j++)
-        {
+void Push(stack *stack, int value) {
+    node *new_top = (node*) malloc(sizeof(node));
+    new_top->data = value;
+    new_top->next = stack->top;
+    stack->top = new_top;
+}
+
+int Pop(stack* stack) {
+    if(!is_empty(stack)){
+        node *tmp;
+        int n;
+        tmp = stack->top;
+        n = tmp->data;
+        stack->top = stack->top->next;
+        free(tmp);
+        return n;
+
+    }
+}
+
+int Top(stack* stack) {
+    return stack->top->data;
+}
+
+int is_empty(stack* stack) {
+    return (stack->top==NULL);
+}
+
+int Stack_Size(node* top){
+  if(top != NULL){
+    return 1 + Stack_Size(top->next);
+  }
+  else {
+    return 0;
+  }
+  
+}
+
+int main() {
+  
+  char str[256];
+  int counter, i =0, k = 0, j;
+  scanf("%d\n", &counter);
+  while(counter--){
+      stack *parenteses = Create_Stack();
+      fgets(str,256,stdin);
+      for (j = 0; j < strlen(str) ; j++){
             if(str[j] == '('){
-                push(parent);
+                Push(parenteses,str[j]);
+                i++;
             }
             if (str[j] == ')')
             {
-                if((vazia(parent))!= 1)
-                    pop(parent);
-                else
-                    i++;
+                Pop(parenteses);
+                i--;
             }
-        }
-        if (vazia(parent) && i==0)
-        {
-            balanced1 = 1;
-        }
-        i=0;
-        for (j = 0; j < strlen(str) ; j++)
-        {
             if(str[j] == '['){
-                push(parent);
+                Push(parenteses,str[j]);
+                k++;
             }
-            if (str[j] == ']')
-            
-                if((vazia(parent))!= 1)
-                    pop(parent);
-                else
-                    i++;
-        }
-        if (vazia(parent) && i==0)
-        {
-            balanced2 = 1;
-        }
-        if (balanced1 && balanced2)
-        {
-            printf("Yes\n");
-        }
-        else{
-            printf("No\n");
-        }
-        free(parent);
-        i=0;
-        balanced1=0;
-        balanced2=0;
+            if(str[j] == ']'){
+                Pop(parenteses);
+                k--;
+            }
+      }   
+      if(i == 0 && k == 0 && is_empty(parenteses))
+      printf("Yes");
+      else printf("No");
 
-    }
- return 0;
-}
-
-void inicia(node *PILHA)
-{
- PILHA->prox = NULL;
- PILHA->tamanho=0;
-}
-
-int vazia(node *PILHA)
-{
- if(PILHA->prox == NULL)
-  return 1;
- else
-  return 0;
-}
-
-node *aloca()
-{
- node *novo=(node *) malloc(sizeof(node));
- if(!novo){
-  printf("Sem memoria disponivel!\n");
-  exit(1);
- }else{
-  novo->num = 1;
-  return novo;
- }
-}
-
-void push(node *PILHA)
-{
- node *novo=aloca();
- novo->prox = NULL;
-
- if(vazia(PILHA))
-  PILHA->prox=novo;
- else{
-  node *tmp = PILHA->prox;
-
-  while(tmp->prox != NULL)
-   tmp = tmp->prox;
-
-  tmp->prox = novo;
- }
- PILHA->tamanho++;
-}
-
-
-node *pop(node *PILHA)
-{
- if(PILHA->prox == NULL){
-  return NULL;
- }else{
-  node *ultimo = PILHA->prox,
-              *penultimo = PILHA;
-
-  while(ultimo->prox != NULL){
-   penultimo = ultimo;
-   ultimo = ultimo->prox;
+      free(parenteses);
   }
-
-  penultimo->prox = NULL;
-  PILHA->tamanho--;
-  return ultimo;
- }
+  return 0;
 }
