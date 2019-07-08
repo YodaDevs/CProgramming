@@ -111,22 +111,17 @@ void result(STACK* stack, char operation){
 //Recebe uma pilha vazia e quantas strings serao lidas
 //Le as n strings que vao seguir e resolve as expressoes
 void Calculadora(STACK* calculadora, int size){
-    int i,aux=0,tam;
+    int i,aux=0, aux1 = 0, tam;
     char num[5];
     while(size--){
             scanf("%s", num);
 
             tam = strlen(num);
-           
-            for (i = 0; i < tam; ++i)
-            {   if (num[i] >= 48 && num[i] <=57) {
-                        aux = aux + (num[i] - 48);
-                        if (num[i+1] >= 0 && tam > 1)
-                        {
-                            aux=aux*10;
-                        }
-                }
+            for (i = 0; i < tam; i++){
+                aux1 = num[i]*pow(10,tam-i);
+                aux = aux + aux1;
             }
+            
             if(tam > 1) {aux/=10;}
                 
             if(aux!=0){
