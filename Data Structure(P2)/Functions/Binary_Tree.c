@@ -19,8 +19,8 @@ void print_pre_order(binary_tree *bt);
 void print_post_order(binary_tree *bt);
 void print_tree_brackets(binary_tree* root);
 void nodesprintHier(binary_tree* p ,int flag);
-int main()
-{
+
+int main(){
     binary_tree* bt = create_empty_binary_tree();
     bt = add(bt,11);
     bt = add(bt,2);
@@ -193,8 +193,7 @@ binary_tree* delete(binary_tree* node, binary_tree* pnode, int target){
 }
 
 // Function to construct brackets with binary tree 
-void print_tree_brackets(binary_tree* root) 
-{ 
+void print_tree_brackets(binary_tree* root){ 
     // bases case 
     if (root == NULL) 
         return; 
@@ -234,8 +233,7 @@ void nodesprintHier(binary_tree* p ,int flag){
   }
 }*/
 
-void nodesprintHier(binary_tree* p ,int flag)
-{ 
+void nodesprintHier(binary_tree* p ,int flag){ 
     if (p == 0) {
         printf("[]");
         return;
