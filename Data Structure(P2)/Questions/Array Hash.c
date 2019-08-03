@@ -45,20 +45,22 @@ int Sum_Hash(hash_table* ht){
     int h = 0, sum = 0;
     while(ht->table[h] != NULL){
         sum = sum + ht->table[h]->value;
+        h++;
     }
     return sum;
 }
 
 
 int main(){
-   int i, round,conta = 0, elemento = 0, posicao,input;
+   int i,j=0, round,conta = 0, elemento = 0, posicao,input;
    char str[51];
-   hash_table* array_hash = (hash_table*) malloc(sizeof(hash_table));
+   
 
    scanf("%d\n", &input);
    
    while(input--){
      scanf("%d\n", &round);
+     hash_table* array_hash = (hash_table*) malloc(sizeof(hash_table));
        while(round--){
          fgets(str,51,stdin);
          for(posicao = 0; posicao < strlen(str); posicao++){
@@ -67,12 +69,16 @@ int main(){
            conta = conta + (str[posicao] - 65) + elemento + posicao;
            //printf("other: %d, ele: %d, pos: %d / ",(str[posicao] - 65) , elemento, posicao);
          }
-         put(array_hash,elemento,(str[posicao] - 65) + elemento + posicao);
+         
          elemento++;
          //printf("conta: %d\n", conta);
         }
+      put(array_hash,j,conta);
+      j++;
       printf("%d\n", Sum_Hash(array_hash));
       elemento = 0;
       conta = 0;
+      j=0;
+      free(array_hash);
     }
 }
